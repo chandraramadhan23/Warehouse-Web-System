@@ -45,25 +45,6 @@ class BarangMasukController extends Controller
 
 
 
-    public function addSession(Request $request) {
-        $items = session()->get('items', []);
-
-        $newItem = [
-            'category' => $request->input('category'),
-            'productname' => $request->input('productname'),
-            'supplier' => $request->input('supplier'),
-            'amount' => $request->input('amount'),
-            'date' => $request->input('date'),
-        ];
-
-        $items[] = $newItem;
-        session()->put('items', $items);
-
-        return response()->json(['success' => 'Item added successfully']);
-    }
-
-
-
     public function delete($id) {
         $items = session()->get('items', []);
 
