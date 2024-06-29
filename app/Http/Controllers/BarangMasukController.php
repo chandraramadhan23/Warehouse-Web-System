@@ -55,4 +55,35 @@ class BarangMasukController extends Controller
 
         return response()->json(['success' => 'Item deleted successfully']);
     }
+
+
+
+
+    public function save(Request $request) {
+        $data = $request->input('data');
+
+        // Lakukan penyimpanan menggunakan foreach
+        foreach ($data as $item) {
+            // Cari produk berdasarkan kategori dan nama
+            $product = Product::where('nameCategory', $item['category'])
+                                ->where('name', $item['productname'])
+                                ->first();
+
+            if ($product) {
+                // Jika produk ditemukan, tambahkan jumlahnya
+                $product->amount += $item['amount'];
+                $product->save();
+            } else {
+                // Jika produk tidak ditemukan, buat produk baru
+                Product::create([
+                    'nameCategory' => $item['category'],
+                    'name' => $item['productname'],
+                    'amount' => $item['amount'],
+                ]);
+            }
+        }
+
+        // Response jika sukses
+        return response()->json(['message' => 'Data saved successfully.'], 200);
+    }
 }

@@ -16,39 +16,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Product::create([
-            'name' => 'Jaket Hoodie',
-            'nameCategory' => 'Jaket',
-            'amount' => '3',
-        ]);
-
-        Product::create([
-            'name' => 'Jaket Cruneck',
-            'nameCategory' => 'Jaket',
-            'amount' => '2',
-        ]);
-
-        Product::create([
-            'name' => 'Baju Adidas',
-            'nameCategory' => 'Baju',
-            'amount' => '20',
-        ]);
-
-        Product::create([
-            'name' => 'Celana Kargo',
-            'nameCategory' => 'Celana',
-            'amount' => '2',
-        ]);
-
-        Product::create([
-            'name' => 'Celana Pendek',
-            'nameCategory' => 'Celana',
-            'amount' => '36',
+        ProductsInCategory::create([
+            'categoryName' => 'Jaket',
+            'productName' => 'Jaket Jeans',
         ]);
 
         ProductsInCategory::create([
-            'categoryName' => 'Topi',
-            'productName' => 'Topi Golf',
+            'categoryName' => 'Jaket',
+            'productName' => 'Jaket Bulu',
+        ]);
+        
+        ProductsInCategory::create([
+            'categoryName' => 'Baju',
+            'productName' => 'Baju Brand',
         ]);
 
         Category::create([
@@ -65,6 +45,12 @@ class DatabaseSeeder extends Seeder
 
         Supplier::create([
             'nameSupplier' => 'Sutrisno Wijayanto',
+            'alamat' => 'Jalan Percetakan Negara NO 12 Jakarta Pusat, DKI Jakarta, Indonesia',
+            'noHp' => '08121345432'
+        ]);
+
+        Supplier::create([
+            'nameSupplier' => 'Tukijem Batako',
             'alamat' => 'Jalan Percetakan Negara NO 12 Jakarta Pusat, DKI Jakarta, Indonesia',
             'noHp' => '08121345432'
         ]);

@@ -267,7 +267,39 @@
 
     // EndButton
     $(document).on('click', '#addButtonEnd', function() {
-        
+        let data = JSON.parse(localStorage.getItem('barangMasukData')) || [];
+
+        $.ajax({
+            type: 'post',
+            url: '/saveToDatabase', // Sesuaikan URL dengan endpoint server Anda
+            data: {
+                data: data // Kirim data dari Local Storage ke server
+            },
+            success: function(response) {
+                // Tampilkan pesan sukses atau lakukan tindakan lain setelah sukses
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Data successfully saved to database.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+
+                // Kosongkan Local Storage setelah berhasil disimpan ke database (opsional)
+                localStorage.removeItem('barangMasukData');
+
+                // Muat ulang DataTable jika diperlukan
+                loadDataToDataTable();
+            },
+            error: function() {
+                // Tampilkan pesan error atau tindakan lain ketika gagal
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to save data to database.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
     })
 
 </script>

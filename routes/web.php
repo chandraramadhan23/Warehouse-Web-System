@@ -29,6 +29,7 @@ Route::get('/barangMasuk', 'BarangMasukController@index');
 Route::get('/showTableBarangMasuk', 'BarangMasukController@showTable');
 Route::get('/showOptionCategory', 'BarangMasukController@showOption');
 Route::post('/deleteSession/{id}', 'BarangMasukController@delete');
+Route::post('/saveToDatabase', 'BarangMasukController@save');
 
 
 // Barang Keluar
