@@ -21,10 +21,10 @@
                                         <h3>Form Input</h3>
                                         @csrf
                                         <div class="mb-3">
-                                            <label for="category">Kategori :</label>
-                                            <select class="form-control js-example-basic-single" id="category" name="category">
+                                            <label for="categoryname">Kategori :</label>
+                                            <select class="form-control js-example-basic-single" id="categoryname" name="categoryname">
                                                 @foreach($categories as $category)
-                                                    <option data-category="{{ $category->nameCategory }}" value="{{ $category->nameCategory }}">{{ $category->nameCategory }}</option>
+                                                    <option data-category="{{ $category->categoryName }}" value="{{ $category->categoryName }}">{{ $category->categoryName }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -38,7 +38,7 @@
                                             <label for="supplier">Supplier :</label>
                                             <select class="form-control js-example-basic-single" id="supplier" name="supplier">
                                                 @foreach($suppliers as $supplier)
-                                                    <option value="{{ $supplier->nameSupplier }}">{{ $supplier->nameSupplier }}</option>
+                                                    <option value="{{ $supplier->supplierName }}">{{ $supplier->supplierName }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -84,7 +84,7 @@
 
 @section('table')
 <script>
-    // init select 2
+    // init select2
     $('.js-example-basic-single').select2();
 
 
@@ -96,7 +96,7 @@
         serverSide: false,
         data: [],
         columns: [
-                {data: 'category'},
+                {data: 'categoryname'},
                 {data: 'productname'},
                 {data: 'supplier'},
                 {data: 'amount'},
@@ -122,7 +122,7 @@
         // Tambahkan data ke DataTable
         data.forEach(function(item, index) {
             tableBarangMasuk.row.add({
-                category: item.category,
+                categoryname: item.categoryname,
                 productname: item.productname,
                 supplier: item.supplier,
                 amount: item.amount,
@@ -143,13 +143,13 @@
 
     // Add Product to LocalStorage
     $(document).on('click', '#addButton', function() {
-        let category = $('#category').val()
+        let categoryname = $('#categoryname').val()
         let productname = $('#productname').val()
         let supplier = $('#supplier').val()
         let amount = $('#amount').val()
         let date = $('#date').val()        
 
-        if (!category || !productname || !supplier || !amount || !date) {
+        if (!categoryname || !productname || !supplier || !amount || !date) {
             Swal.fire({
                 title: 'Error!',
                 text: 'Semua field harus diisi',
@@ -160,7 +160,7 @@
         }
 
         let newData = {
-            category: category,
+            categoryname: categoryname,
             productname: productname,
             supplier: supplier,
             amount: amount,
@@ -181,7 +181,7 @@
         loadDataToDataTable();
 
         // Bersihkan input form
-        $('#category, #productname, #supplier, #amount, #date').val('');
+        $('#categoryname, #productname, #supplier, #amount, #date').val('');
     })
 
 
@@ -189,8 +189,8 @@
 
 
     // Show Select by Category
-    $(document).off('change', '#category')
-    $(document).on('change', '#category', function() {
+    $(document).off('change', '#categoryname')
+    $(document).on('change', '#categoryname', function() {
         // Mengambil elemen yang dipilih
         let selectedOption = $(this).find('option:selected');
 
@@ -237,7 +237,7 @@
             confirmButtonText: "Yes, delete it!"
         }).then((result) =>{
             if (result.isConfirmed) {
-                // Lakukan penghapusan dari Local Storage
+            // Lakukan penghapusan dari Local Storage
             let data = JSON.parse(localStorage.getItem('barangMasukData')) || [];
 
             // Hapus item dengan index tertentu dari data
@@ -271,15 +271,14 @@
 
         $.ajax({
             type: 'post',
-            url: '/saveToDatabase', // Sesuaikan URL dengan endpoint server Anda
+            url: '/saveToStokBarang',
             data: {
                 data: data // Kirim data dari Local Storage ke server
             },
             success: function(response) {
-                // Tampilkan pesan sukses atau lakukan tindakan lain setelah sukses
                 Swal.fire({
                     title: 'Success!',
-                    text: 'Data successfully saved to database.',
+                    text: 'Data successfully saved to stok barang.',
                     icon: 'success',
                     confirmButtonText: 'OK'
                 });
@@ -287,14 +286,14 @@
                 // Kosongkan Local Storage setelah berhasil disimpan ke database (opsional)
                 localStorage.removeItem('barangMasukData');
 
-                // Muat ulang DataTable jika diperlukan
+                // Muat ulang DataTable
                 loadDataToDataTable();
             },
             error: function() {
-                // Tampilkan pesan error atau tindakan lain ketika gagal
+                // Tampilkan pesan error
                 Swal.fire({
                     title: 'Error!',
-                    text: 'Failed to save data to database.',
+                    text: 'Failed to save data to stok barang.',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });

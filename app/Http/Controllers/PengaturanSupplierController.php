@@ -24,7 +24,7 @@ class PengaturanSupplierController extends Controller
     // Add Supplier
     public function add(Request $request) {
         Supplier::create([
-            'nameSupplier' => $request->nameSupplier,
+            'supplierName' => $request->supplierName,
             'alamat' => $request->alamat,
             'noHp' => $request->noHp,
         ]);
@@ -35,7 +35,7 @@ class PengaturanSupplierController extends Controller
     public function update(Request $request) {
         Supplier::where('id', $request->id)->update([
 
-            'nameSupplier' => $request->nameSupplier,
+            'supplierName' => $request->supplierName,
             'alamat' => $request->alamat,
             'noHp' => $request->noHp,
 

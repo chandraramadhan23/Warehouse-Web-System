@@ -20,8 +20,8 @@
                             <thead>
                                 <tr class="table-light">
                                     <th data-ordering="false">No</th>
-                                    <th data-ordering="false">Nama Barang</th>
                                     <th data-ordering="false">Kategori</th>
+                                    <th data-ordering="false">Nama Barang</th>
                                     <th data-ordering="false">Jumlah</th>
                                 </tr>
                             </thead>
@@ -54,8 +54,8 @@
             },
             columns: [
                 {data: 'no'},
-                {data: 'name'},
-                {data: 'nameCategory'},
+                {data: 'categoryName'},
+                {data: 'productName'},
                 {data: 'amount'},
             ],
         })

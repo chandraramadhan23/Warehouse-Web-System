@@ -64,13 +64,13 @@
             },
             columns: [
                     {data: 'no'},
-                    {data: 'nameSupplier'},
+                    {data: 'supplierName'},
                     {data: 'alamat'},
                     {data: 'noHp'},
                     {
                         render:function(data, type, row) {
                             return `
-                                <button class='btn btn-info edit' data-id="${row.id}" data-namesupplier="${row.nameSupplier}" data-alamat="${row.alamat}" data-nohp="${row.noHp}">Edit</button>
+                                <button class='btn btn-info edit' data-id="${row.id}" data-suplliername="${row.supplierName}" data-alamat="${row.alamat}" data-nohp="${row.noHp}">Edit</button>
                                 <button class='btn btn-danger delete' data-id='${row.id}'>Delete</button>
                             `
                         }
@@ -98,7 +98,7 @@
                     <form>
                         <div class="mb-3">
                             <label class="col-form-label">Nama Supplier :</label>
-                            <input type="text" class="form-control" id="nameSupplier">
+                            <input type="text" class="form-control" id="supplierName">
                         </div>
                         <div class="mb-3">
                             <label class="col-form-label">Alamat :</label>
@@ -120,7 +120,7 @@
         })
         // Add Submit
         $(document).on('click', '#submitAddSupplier', function() {
-            const nameSupplier = $('#nameSupplier').val()
+            const supplierName = $('#supplierName').val()
             const alamat = $('#alamat').val()
             const noHp = $('#noHp').val()
 
@@ -128,7 +128,7 @@
                 type: 'post',
                 url: '/addSupplier',
                 data: {
-                    nameSupplier: nameSupplier,
+                    supplierName: supplierName,
                     alamat: alamat,
                     noHp: noHp,
                 },
@@ -142,7 +142,7 @@
 
                     table.ajax.reload()
                     $('#modal').modal('hide')
-                    $('#nameSupplier').val('')
+                    $('#supplierName').val('')
                     $('#alamat').val('')
                     $('#noHp').val('')
                 }
@@ -154,9 +154,10 @@
 
 
         // Edit 
+        $(document).off('click', '.edit')
         $(document).on('click', '.edit', function() {
             let id = $(this).data('id')
-            let nameSupplier = $(this).data('namesupplier')
+            let supplierName = $(this).data('suplliername')
             let alamat = $(this).data('alamat')
             let noHp = $(this).data('nohp')
 
@@ -168,7 +169,7 @@
                     <form>
                         <div class="mb-3">
                             <label class="col-form-label">Nama Supplier :</label>
-                            <input type="text" class="form-control" id="nameSupplierUpdate" value="${nameSupplier}">
+                            <input type="text" class="form-control" id="supplierNameUpdate" value="${supplierName}">
                         </div>
                         <div class="mb-3">
                             <label class="col-form-label">Alamat :</label>
@@ -187,7 +188,7 @@
             `)
 
             $(document).on('click', '#submitEditSupplier', function() {
-                const nameSupplier = $('#nameSupplierUpdate').val()
+                const supplierName = $('#supplierNameUpdate').val()
                 const alamat = $('#alamatUpdate').val()
                 const noHp = $('#noHpUpdate').val()
 
@@ -196,7 +197,7 @@
                     url: '/editSupplier',
                     data: {
                         id: id,
-                        nameSupplier: nameSupplier,
+                        supplierName: supplierName,
                         alamat: alamat,
                         noHp: noHp,
                     },
@@ -241,7 +242,7 @@
                         success: function() {
                             Swal.fire({
                             title: "Deleted!",
-                            text: "Customer has been deleted.",
+                            text: "Supplier has been deleted.",
                             icon: "success"
                             });
 
@@ -250,7 +251,7 @@
                         error: function() {
                             Swal.fire({
                                 title: "Error!",
-                                text: "There was an error deleting the customer.",
+                                text: "There was an error deleting the supplier.",
                                 icon: "error"
                             });
                         }

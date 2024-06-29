@@ -29,7 +29,7 @@ Route::get('/barangMasuk', 'BarangMasukController@index');
 Route::get('/showTableBarangMasuk', 'BarangMasukController@showTable');
 Route::get('/showOptionCategory', 'BarangMasukController@showOption');
 Route::post('/deleteSession/{id}', 'BarangMasukController@delete');
-Route::post('/saveToDatabase', 'BarangMasukController@save');
+Route::post('/saveToStokBarang', 'BarangMasukController@save');
 
 
 // Barang Keluar
@@ -48,8 +48,7 @@ Route::get('/laporanBarangKeluar', 'LaporanBarangKeluarController@index');
 Route::get('/barang', 'PengaturanBarangController@index');
 Route::post('/addProduct', 'PengaturanBarangController@add');
 Route::get('/showTableProductsByCategory', 'PengaturanBarangController@showTable');
-
-// Route::get('/showTableDataJaket', 'PengaturanBarangController@showTableDataJaket')
+Route::post('/deleteProductByCategory/{id}', 'PengaturanBarangController@delete');
 
 
 // Pengaturan Kategori

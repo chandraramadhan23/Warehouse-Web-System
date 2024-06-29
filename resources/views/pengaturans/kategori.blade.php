@@ -68,12 +68,11 @@
             },
             columns: [
                 {data: 'id'},
-                {data: 'nameCategory'},
+                {data: 'categoryName'},
                 {
                     width: '30%',
                     render:function(data, type, row) {
                         return `
-                            <button class='btn btn-info edit' data-id="${row.id}" data-nameCategory="${row.nameCategory}" data-alamat="${row.alamat}" data-nohp="${row.noHp}">Edit</button>
                             <button class='btn btn-danger delete' data-id='${row.id}'>Delete</button>
                         `
                     }
@@ -101,7 +100,7 @@
                     <form>
                         <div class="mb-3">
                             <label class="col-form-label">Nama Category :</label>
-                            <input type="text" class="form-control" id="nameCategory">
+                            <input type="text" class="form-control" id="categoryName">
                         </div>
                     </form>
                 </div>
@@ -115,13 +114,13 @@
         })
 
         $(document).on('click', '#submitAddCategory', function() {
-            const nameCategory = $('#nameCategory').val()
+            const categoryName = $('#categoryName').val()
 
             $.ajax({
                 type: 'post',
                 url: '/addCategory',
                 data: {
-                    nameCategory: nameCategory,
+                    categoryName: categoryName,
                 },
                 success: function() {
                     Swal.fire({
@@ -133,7 +132,7 @@
 
                     table.ajax.reload()
                     $('#modal').modal('hide')
-                    $('#nameCategory').val('')
+                    $('#categoryName').val('')
                 }
             })
         })

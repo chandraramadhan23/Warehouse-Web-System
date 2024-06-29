@@ -65,8 +65,8 @@ class BarangMasukController extends Controller
         // Lakukan penyimpanan menggunakan foreach
         foreach ($data as $item) {
             // Cari produk berdasarkan kategori dan nama
-            $product = Product::where('nameCategory', $item['category'])
-                                ->where('name', $item['productname'])
+            $product = Product::where('categoryName', $item['categoryname'])
+                                ->where('productName', $item['productname'])
                                 ->first();
 
             if ($product) {
@@ -76,8 +76,8 @@ class BarangMasukController extends Controller
             } else {
                 // Jika produk tidak ditemukan, buat produk baru
                 Product::create([
-                    'nameCategory' => $item['category'],
-                    'name' => $item['productname'],
+                    'categoryName' => $item['categoryname'],
+                    'productName' => $item['productname'],
                     'amount' => $item['amount'],
                 ]);
             }

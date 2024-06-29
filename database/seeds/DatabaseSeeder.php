@@ -16,47 +16,73 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Products
+        Product::create([
+            'categoryName' => 'Jaket',
+            'productName' => 'Jaket Cruneck',
+            'amount' => '50',
+        ]);
+
+
+
+
+
+        // ProductInCategory
         ProductsInCategory::create([
             'categoryName' => 'Jaket',
-            'productName' => 'Jaket Jeans',
+            'productName' => 'Jaket Cruneck',
         ]);
 
         ProductsInCategory::create([
             'categoryName' => 'Jaket',
-            'productName' => 'Jaket Bulu',
+            'productName' => 'Jaket Hoodie',
         ]);
         
         ProductsInCategory::create([
             'categoryName' => 'Baju',
-            'productName' => 'Baju Brand',
+            'productName' => 'Baju Adidas',
+        ]);
+
+        ProductsInCategory::create([
+            'categoryName' => 'Baju',
+            'productName' => 'Baju Nike',
+        ]);
+
+        ProductsInCategory::create([
+            'categoryName' => 'Baju',
+            'productName' => 'Baju Puma',
+        ]);
+
+
+
+
+        // Category
+        Category::create([
+            'categoryName' => 'Jaket',
         ]);
 
         Category::create([
-            'nameCategory' => 'Jaket',
+            'categoryName' => 'Baju',
         ]);
 
-        Category::create([
-            'nameCategory' => 'Baju',
-        ]);
 
-        Category::create([
-            'nameCategory' => 'Celana',
-        ]);
 
+
+        // Supplier
         Supplier::create([
-            'nameSupplier' => 'Sutrisno Wijayanto',
+            'supplierName' => 'Sutrisno Wijayanto',
             'alamat' => 'Jalan Percetakan Negara NO 12 Jakarta Pusat, DKI Jakarta, Indonesia',
             'noHp' => '08121345432'
         ]);
 
         Supplier::create([
-            'nameSupplier' => 'Tukijem Batako',
-            'alamat' => 'Jalan Percetakan Negara NO 12 Jakarta Pusat, DKI Jakarta, Indonesia',
-            'noHp' => '08121345432'
+            'supplierName' => 'Tukijem Batako',
+            'alamat' => 'Mall Bellagio NO 22 Jakarta Selatan, DKI Jakarta, Indonesia',
+            'noHp' => '0812134789'
         ]);
 
         Supplier::create([
-            'nameSupplier' => 'Krisna Adi Pati',
+            'supplierName' => 'Krisna Adi Pati',
             'alamat' => 'Gn Mardani NO 42 Kalimantan Timur, Indonesia',
             'noHp' => '08999445765'
         ]);

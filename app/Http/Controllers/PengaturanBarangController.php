@@ -32,4 +32,11 @@ class PengaturanBarangController extends Controller
             'productName' => $request->productName,
         ]);
     }
+
+
+
+    // Delete
+    public function delete($id) {
+        ProductsInCategory::find($id)->delete();
+    }
 }

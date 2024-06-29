@@ -25,7 +25,7 @@ class PengaturanKategoriController extends Controller
     // Add Category
     public function add(Request $request) {
         Category::create([
-            'nameCategory' => $request->nameCategory,
+            'categoryName' => $request->categoryName,
         ]);
     }
 
