@@ -53,7 +53,33 @@
 @section('table')
     <script>
         let table = $('#tableLaporanBarangMasuk').DataTable({
-            //
+            searching: true,
+            serverSide: true,
+            ajax: {
+                type: 'get',
+                url: '/showTableLaporanBarangMasuk',
+                dataSrc: function(json) {
+                    for(let i = 0, len = json.data.length; i < len; i++) {
+                        json.data[i].no = i + 1;
+                    }
+                    return json.data;
+                },
+            },
+            columns: [
+                    {data: 'no'},
+                    {data: 'categoryName'},
+                    {data: 'productName'},
+                    {data: 'supplierName'},
+                    {data: 'amount'},
+                    {data: 'date'},
+                    {
+                        render:function(data, type, row) {
+                            return `
+                                <button class='btn btn-danger delete' data-id='${row.id}'>Delete</button>
+                            `
+                        }
+                    }
+            ]
         })
     </script>
 @endsection

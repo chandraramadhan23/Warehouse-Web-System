@@ -38,6 +38,7 @@ Route::get('/barangKeluar', 'BarangKeluarController@index');
 
 // Laporan Barang Masuk
 Route::get('/laporanBarangMasuk', 'LaporanBarangMasukController@index');
+Route::get('/showTableLaporanBarangMasuk', 'LaporanBarangMasukController@showTable');
 
 
 // Laporan Barang Keluar
