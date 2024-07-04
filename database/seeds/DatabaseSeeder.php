@@ -1,6 +1,7 @@
 <?php
 
 use App\Category;
+use App\InProductReport;
 use App\Product;
 use App\ProductsInCategory;
 use App\Supplier;
@@ -85,6 +86,18 @@ class DatabaseSeeder extends Seeder
             'supplierName' => 'Krisna Adi Pati',
             'alamat' => 'Gn Mardani NO 42 Kalimantan Timur, Indonesia',
             'noHp' => '08999445765'
+        ]);
+
+
+
+
+        // InProductReport
+        InProductReport::create([
+            'categoryName' => 'Jaket',
+            'productName' => 'Jaket Cruneck',
+            'supplierName' => 'Sutrisno Wijayanto',
+            'amount' => '100',
+            'date' => '04/07/2024',
         ]);
     }
 }
