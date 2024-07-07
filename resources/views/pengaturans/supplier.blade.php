@@ -9,14 +9,14 @@
                 
                 <div class="row">
                     <div class="col-lg-12">
-                        <h2>Halaman Pengaturan Supplier</h2>
-                        <p class="text-muted">Welcome to Pengaturan Supplier.</p>
+                        <h2>Halaman Pengaturan Staff Gudang</h2>
+                        <p class="text-muted">Welcome to Pengaturan Staff Gudang.</p>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-4">
-                        <button id="addSupplierModal" class="btn btn-primary">Tambah Supplier</button>
+                        <button id="addSupplierModal" class="btn btn-primary">Tambah Staff</button>
                     </div>
                 </div>
 
@@ -26,9 +26,12 @@
                             <thead>
                                 <tr class="table-light">
                                     <th data-ordering="false">No</th>
-                                    <th data-ordering="false">Nama Supplier</th>
+                                    <th data-ordering="false">Nama Staff</th>
                                     <th data-ordering="false">Alamat</th>
                                     <th data-ordering="false">No Hp</th>
+                                    <th data-ordering="false">E-mail</th>
+                                    <th data-ordering="false">Username</th>
+                                    <th data-ordering="false">Password</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -67,6 +70,9 @@
                     {data: 'supplierName'},
                     {data: 'alamat'},
                     {data: 'noHp'},
+                    {data: 'email'},
+                    {data: 'username'},
+                    {data: 'password'},
                     {
                         render:function(data, type, row) {
                             return `
@@ -92,12 +98,12 @@
         $(document).on('click', '#addSupplierModal', function() {
             $('#containerModal').empty().append(`
                 <div class="modal-header">
-                    <h5 class="modal-title">Add New Supplier</h5>
+                    <h5 class="modal-title">Add New Staff Gudang</h5>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label class="col-form-label">Nama Supplier :</label>
+                            <label class="col-form-label">Nama Staff :</label>
                             <input type="text" class="form-control" id="supplierName">
                         </div>
                         <div class="mb-3">
@@ -106,6 +112,18 @@
                         </div>
                         <div class="mb-3">
                             <label class="col-form-label">No HP :</label>
+                            <input type="text" class="form-control" id="noHp">
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Email :</label>
+                            <input type="text" class="form-control" id="noHp">
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Username :</label>
+                            <input type="text" class="form-control" id="noHp">
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Password :</label>
                             <input type="text" class="form-control" id="noHp">
                         </div>
                     </form>
@@ -163,12 +181,12 @@
 
             $('#containerModal').empty().append(`
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Supplier</h5>
+                    <h5 class="modal-title">Edit Staff Gudang</h5>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label class="col-form-label">Nama Supplier :</label>
+                            <label class="col-form-label">Nama Staff :</label>
                             <input type="text" class="form-control" id="supplierNameUpdate" value="${supplierName}">
                         </div>
                         <div class="mb-3">
@@ -177,6 +195,18 @@
                         </div>
                         <div class="mb-3">
                             <label class="col-form-label">No HP :</label>
+                            <input type="text" class="form-control" id="noHpUpdate" value="${noHp}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Email :</label>
+                            <input type="text" class="form-control" id="noHpUpdate" value="${noHp}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Username :</label>
+                            <input type="text" class="form-control" id="noHpUpdate" value="${noHp}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Password :</label>
                             <input type="text" class="form-control" id="noHpUpdate" value="${noHp}">
                         </div>
                     </form>

@@ -71,21 +71,21 @@ class DatabaseSeeder extends Seeder
 
         // Supplier
         Supplier::create([
-            'supplierName' => 'Sutrisno Wijayanto',
+            'username' => 'yudi12_',
+            'password'=> 'yudyud12',
+            'supplierName' => 'Yudi Kumis',
+            'alamat' => 'Jalan Bunga Mekar NO 99 Bekasi Utara, Jawa Barat',
+            'noHp' => '08121345432',
+            'email' => 'yudi@gmail.com',
+        ]);
+
+        Supplier::create([
+            'username' => 'bagusss01_',
+            'password'=> 'baguspassword',
+            'supplierName' => 'Bagus Setia Budi',
             'alamat' => 'Jalan Percetakan Negara NO 12 Jakarta Pusat, DKI Jakarta, Indonesia',
-            'noHp' => '08121345432'
-        ]);
-
-        Supplier::create([
-            'supplierName' => 'Tukijem Batako',
-            'alamat' => 'Mall Bellagio NO 22 Jakarta Selatan, DKI Jakarta, Indonesia',
-            'noHp' => '0812134789'
-        ]);
-
-        Supplier::create([
-            'supplierName' => 'Krisna Adi Pati',
-            'alamat' => 'Gn Mardani NO 42 Kalimantan Timur, Indonesia',
-            'noHp' => '08999445765'
+            'noHp' => '0812134789',
+            'email' => 'bagus01@gmail.com',
         ]);
 
 
