@@ -9,8 +9,8 @@
                 
                 <div class="row">
                     <div class="col-lg-12">
-                        <h2>Halaman Laporan Barang Masuk</h2>
-                        <p class="text-muted">Welcome to Laporan Barang Masuk Page.</p>
+                        <h2>Halaman Laporan Barang Keluar</h2>
+                        <p class="text-muted">Welcome to Laporan Barang Keluar Page.</p>
                     </div>
                 </div>
 
@@ -23,7 +23,6 @@
                                         <th data-ordering="false">No</th>
                                         <th data-ordering="false">Kategori</th>
                                         <th data-ordering="false">Nama Barang</th>
-                                        <th data-ordering="false">Supplier</th>
                                         <th data-ordering="false">Jumlah</th>
                                         <th data-ordering="false">Tanggal</th>
                                         <th data-ordering="false">Action</th>
@@ -61,7 +60,6 @@
                     {data: 'no'},
                     {data: 'categoryName'},
                     {data: 'productName'},
-                    {data: 'supplierName'},
                     {data: 'amount'},
                     {data: 'date'},
                     {
