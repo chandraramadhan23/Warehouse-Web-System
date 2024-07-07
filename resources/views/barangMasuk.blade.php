@@ -9,8 +9,8 @@
                         
                         <div class="row">
                             <div class="col-lg-12">
-                                <h2>Halaman Barang Masuk</h2>
-                                <p class="text-muted">Welcome to Barang Masuk Page.</p>
+                                <h2>Halaman Barang Keluar</h2>
+                                <p class="text-muted">Welcome to Barang Keluar Page.</p>
                             </div>
                         </div>
 
@@ -35,14 +35,6 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="supplier">Supplier :</label>
-                                            <select class="form-control js-example-basic-single" id="supplier" name="supplier">
-                                                @foreach($suppliers as $supplier)
-                                                    <option value="{{ $supplier->supplierName }}">{{ $supplier->supplierName }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
                                             <label for="amount">Jumlah :</label>
                                             <input type="text" class="form-control" id="amount" name="amount">
                                         </div>
@@ -62,7 +54,6 @@
                                             <tr class="table-light">                                                
                                                 <th data-ordering="false">Kategori</th>
                                                 <th data-ordering="false">Nama Barang</th>
-                                                <th data-ordering="false">Supplier</th>
                                                 <th data-ordering="false">Jumlah</th>
                                                 <th data-ordering="false">Tanggal</th>
                                                 <th>Action</th>
@@ -98,7 +89,6 @@
         columns: [
                 {data: 'categoryname'},
                 {data: 'productname'},
-                {data: 'supplier'},
                 {data: 'amount'},
                 {data: 'date'},
                 {
