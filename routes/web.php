@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Login
+Route::get('/login', 'LoginController@index');
+
 
 // Dashboarad
 Route::get('/', 'DashboardController@index');
