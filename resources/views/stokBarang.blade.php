@@ -111,6 +111,39 @@
             $('#modal').modal('show')
         })
 
+
+
+        // Edit
+        $(document).on('click', '#addSupplierModal', function() {
+            $('#containerModal').empty().append(`
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Barang</h5>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="col-form-label">Kategori :</label>
+                            <input type="text" class="form-control" id="supplierName">
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Nama Barang :</label>
+                            <input type="text" class="form-control" id="supplierName">
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Jumlah :</label>
+                            <input type="text" class="form-control" id="supplierName">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitAddSupplier">Submit</button>
+                </div>
+            `)
+
+            $('#modal').modal('show')
+        })
+
     </script>
 @endsection
 @endsection
