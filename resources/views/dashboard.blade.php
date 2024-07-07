@@ -14,6 +14,16 @@
                     </div>
                 </div>
 
+
+                <div class="row mt-5 justify-content-center">
+                    <div class="col-lg-12 text-center">
+                        <img src="assets/images/logo-yoodzstuff.png" alt="" width="200" class="mb-4">
+                        <h2>Web Yoozdstuff Inventaris Warehouse</h2>
+                        <p class="mb-5">Jl. Damai PBSI, RW.1, Cipayung, Kec. Cipayung, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta 13840.</p>
+                        <p class="text-muted">web created by Rahmat Dewo.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
