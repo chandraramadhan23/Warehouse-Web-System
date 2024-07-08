@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         // Products
         Product::create([
             'categoryName' => 'Jaket',
-            'productName' => 'Jaket Cruneck',
+            'productName' => 'Jaket Crewneck',
             'amount' => '50',
         ]);
 
@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         // ProductInCategory
         ProductsInCategory::create([
             'categoryName' => 'Jaket',
-            'productName' => 'Jaket Cruneck',
+            'productName' => 'Jaket Crewneck',
         ]);
 
         ProductsInCategory::create([
@@ -41,18 +41,18 @@ class DatabaseSeeder extends Seeder
         ]);
         
         ProductsInCategory::create([
-            'categoryName' => 'Baju',
-            'productName' => 'Baju Adidas',
+            'categoryName' => 'Celana',
+            'productName' => 'Kargo Panjang',
         ]);
 
         ProductsInCategory::create([
-            'categoryName' => 'Baju',
-            'productName' => 'Baju Nike',
+            'categoryName' => 'Celana',
+            'productName' => 'Kargo Pendek',
         ]);
 
         ProductsInCategory::create([
-            'categoryName' => 'Baju',
-            'productName' => 'Baju Puma',
+            'categoryName' => 'Celana',
+            'productName' => 'Jeans Panjang',
         ]);
 
 
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Category::create([
-            'categoryName' => 'Baju',
+            'categoryName' => 'Celana',
         ]);
 
 
@@ -95,7 +95,7 @@ class DatabaseSeeder extends Seeder
         // InProductReport
         InProductReport::create([
             'categoryName' => 'Jaket',
-            'productName' => 'Jaket Cruneck',
+            'productName' => 'Jaket Crewneck',
             'supplierName' => 'Sutrisno Wijayanto',
             'amount' => '100',
             'date' => '2024-04-07',
@@ -105,15 +105,8 @@ class DatabaseSeeder extends Seeder
         // OutProductReport
         OutProductReport::create([
             'categoryName' => 'Jaket',
-            'productName' => 'Jaket Cruneck',
+            'productName' => 'Jaket Crewneck',
             'amount' => '50',
-            'date' => '2024-04-07',
-        ]);
-
-        OutProductReport::create([
-            'categoryName' => 'Jaket',
-            'productName' => 'Jaket Hoodie',
-            'amount' => '500',
             'date' => '2024-04-07',
         ]);
     }
