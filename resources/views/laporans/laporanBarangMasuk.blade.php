@@ -16,7 +16,7 @@
 
                 <div class="row">
                     <div class="col-12 mb-4 d-flex justify-content-end">
-                        <button class="btn btn-success">
+                        <button class="btn btn-success" id="print">
                             <i class="ri-printer-line me-2"></i>Print Laporan
                         </button>
                     </div>
@@ -81,7 +81,7 @@
                             `
                         }
                     }
-            ]
+            ],
         })
 
 
@@ -127,6 +127,15 @@
                     table.ajax.reload()
                 }
             })
+        })
+
+
+
+
+
+        // Print Laporan
+        $(document).on('click', '#print', function() {
+            window.print();
         })
     </script>
 @endsection

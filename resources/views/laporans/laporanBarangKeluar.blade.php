@@ -16,7 +16,7 @@
 
                 <div class="row">
                     <div class="col-12 mb-4 d-flex justify-content-end">
-                        <button class="btn btn-success">
+                        <button class="btn btn-success" id="print">
                             <i class="ri-printer-line me-2"></i>Print Laporan
                         </button>
                     </div>
@@ -88,43 +88,53 @@
 
     // Delete
     $(document).on('click', '.delete', function() {
-            let id = $(this).data('id')
+        let id = $(this).data('id')
 
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to delete this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: 'post',
-                        url: '/deleteLaporanKeluar/' + id,
-                        success: function() {
-                            Swal.fire({
-                            title: "Deleted!",
-                            text: "Report has been deleted.",
-                            icon: "success"
-                            });
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to delete this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'post',
+                    url: '/deleteLaporanKeluar/' + id,
+                    success: function() {
+                        Swal.fire({
+                        title: "Deleted!",
+                        text: "Report has been deleted.",
+                        icon: "success"
+                        });
 
-                            table.ajax.reload();
-                        },
-                        error: function() {
-                            Swal.fire({
-                                title: "Error!",
-                                text: "There was an error deleting this laporan.",
-                                icon: "error"
-                            });
-                        }
-                    });
-                } else {
-                    table.ajax.reload()
-                }
-            })
+                        table.ajax.reload();
+                    },
+                    error: function() {
+                        Swal.fire({
+                            title: "Error!",
+                            text: "There was an error deleting this laporan.",
+                            icon: "error"
+                        });
+                    }
+                });
+            } else {
+                table.ajax.reload()
+            }
         })
+    })
+
+
+
+
+
+    // Print Laporan
+    $(document).on('click', '#print', function() {
+        window.print();
+    })
+
 
 </script>
 @endsection
