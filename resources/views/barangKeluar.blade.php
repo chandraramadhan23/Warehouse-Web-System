@@ -107,33 +107,74 @@
 
 
 
-        // Show Select by Category
-        $(document).off('change', '#categoryname')
-        $(document).on('change', '#categoryname', function() {
-            // Mengambil elemen yang dipilih
-            let selectedOption = $(this).find('option:selected');
-
-            // Mengambil nilai dari data-category
+        // Show Products by Select Category
+        $(document).ready(function() {
+            // Panggil fungsi untuk kategori pertama kali halaman dimuat
+            let selectedOption = $('#categoryname').find('option:selected');
             let category = selectedOption.data('category');
+            loadProductsByCategory(category);
 
-            $.ajax({
-                type: 'get',
-                url: 'showOptionCategoryKeluar',
-                data: {
-                    categoryName: category,
-                },
-                success: function(response) {
-                    // Kosongkan elemen select produk
-                    $('#productname').empty();
+            // Fungsi untuk memuat produk berdasarkan kategori
+            function loadProductsByCategory(category) {
+                $.ajax({
+                    type: 'get',
+                    url: 'showOptionCategoryKeluar',
+                    data: {
+                        categoryName: category,
+                    },
+                    success: function(response) {
+                        // Kosongkan elemen select produk
+                        $('#productname').empty();
 
-                    $.each(response, function(index, item) {
-                        $('#productname').append(`
-                            <option value="${item.productName}">${item.productName}</option>
-                        `);
-                    });
-                }
-            })
-        })
+                        $.each(response, function(index, item) {
+                            $('#productname').append(`
+                                <option value="${item.productName}">${item.productName}</option>
+                            `);
+                        });
+                    }
+                });
+            }
+
+            // Show Select by Category
+            $(document).off('change', '#categoryname')
+            $(document).on('change', '#categoryname', function() {
+                // Mengambil elemen yang dipilih
+                let selectedOption = $(this).find('option:selected');
+
+                // Mengambil nilai dari data-category
+                let category = selectedOption.data('category');
+
+                // Panggil fungsi untuk memuat produk berdasarkan kategori
+                loadProductsByCategory(category);
+            });
+        });
+
+        // $(document).off('change', '#categoryname')
+        // $(document).on('change', '#categoryname', function() {
+        //     // Mengambil elemen yang dipilih
+        //     let selectedOption = $(this).find('option:selected');
+
+        //     // Mengambil nilai dari data-category
+        //     let category = selectedOption.data('category');
+
+        //     $.ajax({
+        //         type: 'get',
+        //         url: 'showOptionCategoryKeluar',
+        //         data: {
+        //             categoryName: category,
+        //         },
+        //         success: function(response) {
+        //             // Kosongkan elemen select produk
+        //             $('#productname').empty();
+
+        //             $.each(response, function(index, item) {
+        //                 $('#productname').append(`
+        //                     <option value="${item.productName}">${item.productName}</option>
+        //                 `);
+        //             });
+        //         }
+        //     })
+        // })
 
 
 

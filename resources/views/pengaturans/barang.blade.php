@@ -130,7 +130,8 @@
                             confirmButtonText: 'Cool',
                             })
 
-                            tables[tableId].ajax.reload();
+                            // tables[tableId].ajax.reload();
+                            window.location.reload()
                             $('#modal').modal('hide')
                             $('#productName').val('')
                         }
@@ -139,6 +140,9 @@
 
                 $('#modal').modal('show')
             })
+
+
+
 
 
             // Delete

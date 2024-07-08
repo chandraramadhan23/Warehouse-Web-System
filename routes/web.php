@@ -40,11 +40,13 @@ Route::post('/endSaveKeluar', 'BarangKeluarController@save');
 // Laporan Barang Masuk
 Route::get('/laporanBarangMasuk', 'LaporanBarangMasukController@index');
 Route::get('/showTableLaporanBarangMasuk', 'LaporanBarangMasukController@showTable');
+Route::post('/deleteLaporanMasuk/{id}', 'LaporanBarangMasukController@delete');
 
 
 // Laporan Barang Keluar
 Route::get('/laporanBarangKeluar', 'LaporanBarangKeluarController@index');
 Route::get('/showTableLaporanBarangKeluar', 'LaporanBarangKeluarController@showTable');
+Route::post('/deleteLaporanKeluar/{id}', 'LaporanBarangKeluarController@delete');
 
 
 // Pengaturan Barang

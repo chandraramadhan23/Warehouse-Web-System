@@ -19,4 +19,10 @@ class LaporanBarangMasukController extends Controller
 
         return DataTables::of($reports)->make(true);
     }
+
+
+
+    public function delete($id) {
+        InProductReport::find($id)->delete();
+    }
 }
