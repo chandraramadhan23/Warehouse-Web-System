@@ -109,5 +109,12 @@ class DatabaseSeeder extends Seeder
             'amount' => '50',
             'date' => '2024-04-07',
         ]);
+
+        OutProductReport::create([
+            'categoryName' => 'Jaket',
+            'productName' => 'Jaket Hoodie',
+            'amount' => '500',
+            'date' => '2024-04-07',
+        ]);
     }
 }

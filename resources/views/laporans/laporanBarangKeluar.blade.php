@@ -27,13 +27,13 @@
                         <div class="card px-4 py-4">
                             <table id="tableLaporanBarangKeluar" class="table table-hover nowrap align-middle" style="width:100%">
                                 <thead>
-                                    <tr class="table-light">                                                
+                                    <tr class="table-light">                     
+                                        <th data-ordering="false">No</th>
                                         <th data-ordering="false">Kategori</th>
                                         <th data-ordering="false">Nama Barang</th>
-                                        <th data-ordering="false">Supplier</th>
-                                        <th data-ordering="false">Tanggal</th>
                                         <th data-ordering="false">Jumlah</th>
-                                        <th>Action</th>
+                                        <th data-ordering="false">Tanggal</th>
+                                        <th data-ordering="false">Action</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -50,9 +50,34 @@
 
 
 @section('table')
-    <script>
-        let table = $('#tableLaporanBarangKeluar').DataTable({
-            //
-        })
-    </script>
+<script>
+    let table = $('#tableLaporanBarangKeluar').DataTable({
+        searching: true,
+        serverSide: true,
+        ajax: {
+            type: 'get',
+            url: '/showTableLaporanBarangKeluar',
+            dataSrc: function(json) {
+                for(let i = 0, len = json.data.length; i < len; i++) {
+                    json.data[i].no = i + 1;
+                }
+                return json.data;
+            },
+        },
+        columns: [
+                {data: 'no'},
+                {data: 'categoryName'},
+                {data: 'productName'},
+                {data: 'amount'},
+                {data: 'date'},
+                {
+                    render:function(data, type, row) {
+                        return `
+                            <button class='btn btn-danger delete' data-id='${row.id}'>Delete</button>
+                        `
+                    }
+                }
+        ]
+    })
+</script>
 @endsection
