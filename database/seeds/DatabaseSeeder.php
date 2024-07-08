@@ -97,7 +97,7 @@ class DatabaseSeeder extends Seeder
             'productName' => 'Jaket Cruneck',
             'supplierName' => 'Sutrisno Wijayanto',
             'amount' => '100',
-            'date' => '04-07-2024',
+            'date' => '2024-04-07',
         ]);
     }
 }

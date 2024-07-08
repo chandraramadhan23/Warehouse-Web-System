@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\InProductReport;
 use App\Product;
 use App\ProductsInCategory;
 use App\Supplier;
@@ -56,14 +57,21 @@ class BarangMasukController extends Controller
         return response()->json(['success' => 'Item deleted successfully']);
     }
 
-
-
-
     public function save(Request $request) {
         $data = $request->input('data');
 
         // Lakukan penyimpanan menggunakan foreach
         foreach ($data as $item) {
+            // MASUKA KE DALAM TABEL REPORT
+            InProductReport::create([
+                'categoryName' => $item['categoryname'],
+                'productName' => $item['productname'],
+                'supplierName' => $item['supplier'],
+                'amount' => $item['amount'],
+                'date' => $item['date'],
+            ]);
+
+            // MASUKAN KE DALAM TABEL PRODUCT
             // Cari produk berdasarkan kategori dan nama
             $product = Product::where('categoryName', $item['categoryname'])
                                 ->where('productName', $item['productname'])

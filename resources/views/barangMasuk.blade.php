@@ -271,14 +271,14 @@
 
         $.ajax({
             type: 'post',
-            url: '/saveToStokBarang',
+            url: '/endSave',
             data: {
-                data: data // Kirim data dari Local Storage ke server
+                data: data
             },
             success: function(response) {
                 Swal.fire({
                     title: 'Success!',
-                    text: 'Data successfully saved to stok barang.',
+                    text: 'Data successfully saved to stok barang and report.',
                     icon: 'success',
                     confirmButtonText: 'OK'
                 });
