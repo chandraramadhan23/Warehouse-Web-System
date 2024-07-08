@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\OutProductReport;
+use App\Product;
 use App\ProductsInCategory;
 use App\Supplier;
 use Illuminate\Http\Request;
@@ -41,6 +42,27 @@ class BarangKeluarController extends Controller
                 'amount' => $item['amount'],
                 'date' => $item['date'],
             ]);
+
+
+            // MASUKAN KE DALAM TABEL PRODUCT
+            // Cari produk berdasarkan kategori dan nama
+            $product = Product::where('categoryName', $item['categoryname'])
+                                ->where('productName', $item['productname'])
+                                ->first();
+
+            if ($product) {
+                // Jika produk ditemukan, kurangi jumlahnya
+                $product->amount -= $item['amount'];
+
+                if ($product->amount > 0) {
+                // Jika jumlah produk masih lebih dari 0, simpan perubahan
+                $product->save();
+                } else {
+                // Jika jumlah produk kurang dari atau sama dengan 0, hapus produk
+                $product->delete();
+                }
+            }
+            // Jika produk tidak ditemukan, tidak perlu melakukan apa-apa
         }
 
         // Response jika sukses
