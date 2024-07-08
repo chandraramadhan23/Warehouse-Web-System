@@ -90,7 +90,7 @@
 
 
 
-    // Table
+    // DataTable
     let tableBarangMasuk = $('#tableBarangMasuk').DataTable({
         searching: true,
         serverSide: false,
@@ -199,7 +199,7 @@
 
         $.ajax({
             type: 'get',
-            url: 'showOptionCategory',
+            url: 'showOptionCategoryMasuk',
             data: {
                 categoryName: category,
             },
@@ -213,9 +213,7 @@
                     `);
                 });
             }
-        })
-        
-
+        })    
     })
 
 
@@ -271,7 +269,7 @@
 
         $.ajax({
             type: 'post',
-            url: '/endSave',
+            url: '/endSaveMasuk',
             data: {
                 data: data
             },
@@ -293,7 +291,7 @@
                 // Tampilkan pesan error
                 Swal.fire({
                     title: 'Error!',
-                    text: 'Failed to save data to stok barang.',
+                    text: 'Failed to save data to stok barang and report.',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });

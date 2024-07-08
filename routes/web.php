@@ -26,14 +26,15 @@ Route::get('/showTableStokBarang', 'StokBarangController@showTable');
 
 // Barang Masuk
 Route::get('/barangMasuk', 'BarangMasukController@index');
-Route::get('/showTableBarangMasuk', 'BarangMasukController@showTable');
-Route::get('/showOptionCategory', 'BarangMasukController@showOption');
-Route::post('/deleteSession/{id}', 'BarangMasukController@delete');
-Route::post('/endSave', 'BarangMasukController@save');
+Route::get('/showOptionCategoryMasuk', 'BarangMasukController@showOption');
+Route::post('/endSaveMasuk', 'BarangMasukController@save');
 
 
 // Barang Keluar
 Route::get('/barangKeluar', 'BarangKeluarController@index');
+Route::get('/showOptionCategoryKeluar', 'BarangKeluarController@showOption');
+Route::post('/endSaveKeluar', 'BarangKeluarController@save');
+
 
 
 // Laporan Barang Masuk

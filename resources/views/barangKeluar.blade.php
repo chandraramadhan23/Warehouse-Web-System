@@ -17,39 +17,30 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="card px-4 py-4">
-                                    <form>
+                                    <form id="productForm">
                                         <h3>Form Input</h3>
-                                        <div class="mb-3 mt-4">
-                                            <label for="category">Kategori :</label>
-                                            <select class="form-control" id="category">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="categoryname">Kategori :</label>
+                                            <select class="form-control js-example-basic-single" id="categoryname" name="categoryname">
                                                 @foreach($categories as $category)
-                                                    <option value="{{ $category->nameCategory }}">{{ $category->nameCategory }}</option>
+                                                    <option data-category="{{ $category->categoryName }}" value="{{ $category->categoryName }}">{{ $category->categoryName }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="product">Nama Barang :</label>
-                                            <select class="form-control" id="product">
-                                                <option value="">Jaket Hoodie (masih manual)</option>
-                                                <option value="">Jaket Crunek (masih manual)</option>
-                                                <option value="">Jaket Jeans (masih manual)</option>
+                                            <label for="productname">Nama Barang :</label>
+                                            <select class="form-control js-example-basic-single" id="productname" name="productname">
+                                                <option value="">Pilih Barang</option>
                                             </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="supplier">Supplier :</label>
-                                            <select class="form-control" id="supplier">
-                                                @foreach($suppliers as $supplier)
-                                                    <option value="{{ $supplier->nameSupplier }}">{{ $supplier->nameSupplier }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="date">Tanggal :</label>
-                                            <input type="date" class="form-control" id="date">
                                         </div>
                                         <div class="mb-3">
                                             <label for="amount">Jumlah :</label>
-                                            <input type="text" class="form-control" id="amount">
+                                            <input type="text" class="form-control" id="amount" name="amount">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="date">Tanggal :</label>
+                                            <input type="date" class="form-control" id="date" name="date">
                                         </div>
                                         <button type="button" class="btn btn-info" id="addButton">Tambah</button>
                                     </form>
@@ -63,9 +54,8 @@
                                             <tr class="table-light">                                                
                                                 <th data-ordering="false">Kategori</th>
                                                 <th data-ordering="false">Nama Barang</th>
-                                                <th data-ordering="false">Supplier</th>
-                                                <th data-ordering="false">Tanggal</th>
                                                 <th data-ordering="false">Jumlah</th>
+                                                <th data-ordering="false">Tanggal</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -84,25 +74,228 @@
 
 
 
-{{-- Show Datatable --}}
 @section('table')
     <script>
+        // init select2
+        $('.js-example-basic-single').select2();
+
+
+
+
+        // Show DataTable
         let table = $('#tableBarangKeluar').DataTable({
-            //
+            searching: true,
+            serverSide: false,
+            data: [],
+            columns: [
+                {data: 'categoryname'},
+                {data: 'productname'},
+                {data: 'amount'},
+                {data: 'date'},
+                {
+                    data: 'id',
+                    render:function(data, type, row) {
+                        return `
+                            <button class='btn btn-danger delete' data-id="${data}">Delete</button>
+                        `
+                    }
+                }
+            ]
+        })
+
+
+
+
+
+        // Show Select by Category
+        $(document).off('change', '#categoryname')
+        $(document).on('change', '#categoryname', function() {
+            // Mengambil elemen yang dipilih
+            let selectedOption = $(this).find('option:selected');
+
+            // Mengambil nilai dari data-category
+            let category = selectedOption.data('category');
+
+            $.ajax({
+                type: 'get',
+                url: 'showOptionCategoryKeluar',
+                data: {
+                    categoryName: category,
+                },
+                success: function(response) {
+                    // Kosongkan elemen select produk
+                    $('#productname').empty();
+
+                    $.each(response, function(index, item) {
+                        $('#productname').append(`
+                            <option value="${item.productName}">${item.productName}</option>
+                        `);
+                    });
+                }
+            })
+        })
+
+
+
+
+
+        // Add Product to LocalStorage
+        $(document).on('click', '#addButton', function() {
+            let categoryname = $('#categoryname').val()
+            let productname = $('#productname').val()
+            let amount = $('#amount').val()
+            let date = $('#date').val()
+
+            if (!categoryname || !productname || !amount || !date) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Semua field harus diisi',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            let newData = {
+                categoryname: categoryname,
+                productname: productname,
+                amount: amount,
+                date: date
+            };
+
+            let existingEntries = JSON.parse(localStorage.getItem("barangKeluarData")) || [];
+            existingEntries.push(newData);
+            localStorage.setItem("barangKeluarData", JSON.stringify(existingEntries));
+
+            Swal.fire({
+                title: 'Berhasil!',
+                text: 'Data berhasil ditambah',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
+            loadDataToDataTable();
+
+            // Bersihkan input form
+            $('#categoryname, #productname, #amount, #date').val('');
+        })
+
+
+
+
+        // Fungsi untuk memuat data dari Local Storage ke DataTable
+        function loadDataToDataTable() {
+            let data = JSON.parse(localStorage.getItem('barangKeluarData')) || [];
+            
+            // Bersihkan DataTable
+            table.clear().draw();
+
+            // Tambahkan data ke DataTable
+            data.forEach(function(item, index) {
+                table.row.add({
+                    categoryname: item.categoryname,
+                    productname: item.productname,
+                    amount: item.amount,
+                    date: item.date,
+                    id: index // Tambahkan ID atau index untuk tombol Delete jika diperlukan
+                }).draw();
+            });
+        }
+
+        // jalankan function nya
+        loadDataToDataTable();
+
+
+
+
+        
+
+
+
+
+
+        // Delete
+        $(document).off('click', '.delete')
+        $(document).on('click', '.delete', function() {
+            let index = $(this).data('id')
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to delete this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) =>{
+                if (result.isConfirmed) {
+                // Lakukan penghapusan dari Local Storage
+                let data = JSON.parse(localStorage.getItem('barangKeluarData')) || [];
+
+                // Hapus item dengan index tertentu dari data
+                data.splice(index, 1);
+
+                // Simpan kembali data yang sudah di-filter ke dalam Local Storage
+                localStorage.setItem('barangKeluarData', JSON.stringify(data));
+
+                // Tampilkan pesan sukses
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Data has been deleted.",
+                    icon: "success"
+                });
+
+                // Muat ulang DataTable dari Local Storage
+                loadDataToDataTable();
+                } else {
+                    
+                }
+            })
+        })
+
+
+
+
+
+        // EndButton
+        $(document).on('click', '#addButtonEnd', function() {
+            let data = JSON.parse(localStorage.getItem('barangKeluarData')) || [];
+
+            $.ajax({
+                type: 'post',
+                url: '/endSaveBarangKeluar',
+                data: {
+                    data: data
+                },
+                success: function(response) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Data successfully saved to stok barang and report.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+
+                    // Kosongkan Local Storage setelah berhasil disimpan ke database (opsional)
+                    localStorage.removeItem('barangKeluarData');
+
+                    // Muat ulang DataTable
+                    loadDataToDataTable();
+                },
+                error: function() {
+                    // Tampilkan pesan error
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to save data to stok barang and report.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
         })
     </script>
 @endsection
-
-
-
-
-<script>
-
-// Add Barang Keluar
-$(document).on('click', '#addButton', function() {
-    //        
-})
-
-</script>
         
+
+
+{{-- end secttion container --}}
 @endsection

@@ -23,17 +23,6 @@ class BarangMasukController extends Controller
     }
 
 
-    
-    public function showTable() {
-        $items = session()->get('items', []);
-
-        $items = array_map(function($item, $index) {
-            $item['id'] = $index;
-            return $item;
-        }, $items, array_keys($items));
-
-        return DataTables::of($items)->make(true);
-    }
 
 
 
@@ -45,17 +34,7 @@ class BarangMasukController extends Controller
 
 
 
-
-    public function delete($id) {
-        $items = session()->get('items', []);
-
-        if(isset($items[$id])) {
-            unset($items[$id]);
-            session()->put('items', array_values($items));
-        }
-
-        return response()->json(['success' => 'Item deleted successfully']);
-    }
+    
 
     public function save(Request $request) {
         $data = $request->input('data');
