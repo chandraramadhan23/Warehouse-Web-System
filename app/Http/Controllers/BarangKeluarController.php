@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\OutProductReport;
 use App\ProductsInCategory;
 use App\Supplier;
 use Illuminate\Http\Request;
@@ -33,7 +34,13 @@ class BarangKeluarController extends Controller
 
         // Lakukan penyimpanan menggunakan foreach
         foreach($data as $item) {
-            
+            // MASUKA KE DALAM TABEL REPORT
+            OutProductReport::create([
+                'categoryName' => $item['categoryname'],
+                'productName' => $item['productname'],
+                'amount' => $item['amount'],
+                'date' => $item['date'],
+            ]);
         }
 
         // Response jika sukses

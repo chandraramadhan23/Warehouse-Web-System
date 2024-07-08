@@ -62,7 +62,7 @@
                                     </table>
                                 </div>
                                 <div class="card">
-                                    <button class="btn btn-primary">Selesai</button>
+                                    <button class="btn btn-primary" id="addButtonEnd">Selesai</button>
                                 </div>
                             </div>
                         </div>
@@ -263,7 +263,7 @@
 
             $.ajax({
                 type: 'post',
-                url: '/endSaveBarangKeluar',
+                url: '/endSaveKeluar',
                 data: {
                     data: data
                 },
