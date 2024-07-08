@@ -2,6 +2,7 @@
 
 use App\Category;
 use App\InProductReport;
+use App\OutProductReport;
 use App\Product;
 use App\ProductsInCategory;
 use App\Supplier;
@@ -97,6 +98,15 @@ class DatabaseSeeder extends Seeder
             'productName' => 'Jaket Cruneck',
             'supplierName' => 'Sutrisno Wijayanto',
             'amount' => '100',
+            'date' => '2024-04-07',
+        ]);
+
+
+        // OutProductReport
+        OutProductReport::create([
+            'categoryName' => 'Jaket',
+            'productName' => 'Jaket Cruneck',
+            'amount' => '50',
             'date' => '2024-04-07',
         ]);
     }

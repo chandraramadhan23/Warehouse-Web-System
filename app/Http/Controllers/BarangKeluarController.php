@@ -29,6 +29,14 @@ class BarangKeluarController extends Controller
 
 
     public function save(Request $request) {
-        
+        $data = $request->input('data');
+
+        // Lakukan penyimpanan menggunakan foreach
+        foreach($data as $item) {
+            
+        }
+
+        // Response jika sukses
+        return response()->json(['message' => 'Data saved successfully.'], 200);
     }
 }
