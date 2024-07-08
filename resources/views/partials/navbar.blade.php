@@ -41,8 +41,10 @@
                 </div>
         
                 {{-- Logout --}}
-                <div class="ms-3 header-item">
-                    <a class="" href="auth-logout-basic.html"><i class="mdi mdi-logout fs-16 align-middle"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                <div class="ms-3 header-item" id="logout">
+                    <button type="button" class="btn  btn-ghost-secondary light-dark-mode shadow-none">
+                        <i class="mdi mdi-logout fs-16 align-middle"></i> <span class="align-middle" data-key="t-logout">Logout</span>
+                    </button>
                 </div>
             </div>
         </div>        

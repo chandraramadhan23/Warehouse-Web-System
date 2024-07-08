@@ -146,6 +146,41 @@
     @yield('modal')
 
 
+
+
+    {{-- Logout --}}
+    <script>
+        $(document).on('click', '#logout', function(){
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Do you want to logout",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Logout"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/logout',
+                        success: function() {
+                            window.location.href = '/';
+                        },
+                        error: function() {
+                            Swal.fire({
+                                title: "Error!",
+                                text: "There was an error and can not logout.",
+                                icon: "error"
+                            });
+                        }
+                    });
+                }
+            })
+        }) 
+    </script>
+
+
 </body>
 
 </html>

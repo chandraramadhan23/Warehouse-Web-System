@@ -6,6 +6,7 @@ use App\OutProductReport;
 use App\Product;
 use App\ProductsInCategory;
 use App\Supplier;
+use App\User;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Database\Seeder;
 
@@ -18,6 +19,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        // User
+        User::create([
+            'name' => 'M Chandra Ramadhan',
+            'username' => 'chandra',
+            'password'=> bcrypt('chandra'),
+        ]);
+
+
+
         // Products
         Product::create([
             'categoryName' => 'Jaket',
