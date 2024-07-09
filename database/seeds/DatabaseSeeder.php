@@ -33,7 +33,19 @@ class DatabaseSeeder extends Seeder
         Product::create([
             'categoryName' => 'Jaket',
             'productName' => 'Jaket Crewneck',
-            'amount' => '50',
+            'amount' => '150',
+        ]);
+
+        Product::create([
+            'categoryName' => 'Jaket',
+            'productName' => 'Jaket Hoodie',
+            'amount' => '80',
+        ]);
+
+        Product::create([
+            'categoryName' => 'Celana',
+            'productName' => 'Kargo Panjang',
+            'amount' => '120',
         ]);
 
 
