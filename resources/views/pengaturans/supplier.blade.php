@@ -187,6 +187,7 @@
                 </div>
             `)
 
+            $(document).off('click', '#submitEditSupplier')
             $(document).on('click', '#submitEditSupplier', function() {
                 const supplierName = $('#supplierNameUpdate').val()
                 const alamat = $('#alamatUpdate').val()
@@ -210,6 +211,15 @@
                         confirmButtonText: 'Cool',
                         })
 
+                        table.ajax.reload()
+                        $('#modal').modal('hide')
+                    },
+                    error: function() {
+                        Swal.fire({
+                            title: "Error!",
+                            text: "There was an error edit the supplier.",
+                            icon: "error"
+                        });
                         table.ajax.reload()
                         $('#modal').modal('hide')
                     }
