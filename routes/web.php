@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function() {
     // Stok Barang
     Route::get('/stokBarang', 'StokBarangController@index');
     Route::get('/showTableStokBarang', 'StokBarangController@showTable');
+    Route::post('/deleteByStokBarang', 'StokBarangController@delete');
 
 
     // Barang Masuk
