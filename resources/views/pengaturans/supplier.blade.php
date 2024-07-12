@@ -6,7 +6,7 @@
     <div class="page-content">
         <div class="container-fluid">
             <div class="h-100">
-                
+
                 <div class="row">
                     <div class="col-lg-12">
                         <h2>Halaman Pengaturan Supplier</h2>
@@ -48,36 +48,49 @@
 
 {{-- Show Datatable Suppliers --}}
 @section('table')
-    <script>
-        let table = $('#tableSupplier').DataTable({
+<script>
+    function showTable() {
+        $('#tableSupplier').DataTable({
+            bDestroy: true,
             searching: true,
             serverSide: true,
             ajax: {
                 type: 'get',
                 url: '/showTableSupplier',
-                dataSrc: function(json) {
-                    for(let i = 0, len = json.data.length; i < len; i++) {
+                dataSrc: function (json) {
+                    for (let i = 0, len = json.data.length; i < len; i++) {
                         json.data[i].no = i + 1;
                     }
                     return json.data;
                 },
             },
-            columns: [
-                    {data: 'no'},
-                    {data: 'supplierName'},
-                    {data: 'alamat'},
-                    {data: 'noHp'},
-                    {
-                        render:function(data, type, row) {
-                            return `
+            columns: [{
+                    data: 'no'
+                },
+                {
+                    data: 'supplierName'
+                },
+                {
+                    data: 'alamat'
+                },
+                {
+                    data: 'noHp'
+                },
+                {
+                    render: function (data, type, row) {
+                        return `
                                 <button class='btn btn-info edit' data-id="${row.id}" data-suplliername="${row.supplierName}" data-alamat="${row.alamat}" data-nohp="${row.noHp}">Edit</button>
                                 <button class='btn btn-danger delete' data-id='${row.id}'>Delete</button>
                             `
-                        }
                     }
+                }
             ]
         })
-    </script>
+    }
+
+    // Jalankan function nya
+    showTable()
+</script>
 @endsection
 
 
@@ -85,77 +98,96 @@
 
 
 @section('modal')
-    @include('modals.modal')
+@include('modals.modal')
 
-    <script>
-        // Add
-        $(document).on('click', '#addSupplierModal', function() {
+<script>
+    // SweetAlert
+    function notifSweetAlert(title, text, icon, confirmButtonText) {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            confirmButtonText: confirmButtonText,
+        })
+    }
+
+
+    // Add Supplier
+    function addSupplier() {
+        $(document).off('click', '#addSupplierModal')
+        $(document).on('click', '#addSupplierModal', function () {
             $('#containerModal').empty().append(`
-                <div class="modal-header">
-                    <h5 class="modal-title">Add New Supplier</h5>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label class="col-form-label">Nama Supplier :</label>
-                            <input type="text" class="form-control" id="supplierName">
-                        </div>
-                        <div class="mb-3">
-                            <label class="col-form-label">Alamat :</label>
-                            <textarea class="form-control" id="alamat" style="height: 100px"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="col-form-label">No HP :</label>
-                            <input type="text" class="form-control" id="noHp">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="submitAddSupplier">Submit</button>
-                </div>
-            `)
-
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add New Supplier</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label class="col-form-label">Nama Supplier :</label>
+                                <input type="text" class="form-control" id="supplierName">
+                            </div>
+                            <div class="mb-3">
+                                <label class="col-form-label">Alamat :</label>
+                                <textarea class="form-control" id="alamat" style="height: 100px"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="col-form-label">No HP :</label>
+                                <input type="text" class="form-control" id="noHp">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="submitAddSupplier">Submit</button>
+                    </div>
+                `)
+    
             $('#modal').modal('show')
-        })
-        // Add Submit
-        $(document).on('click', '#submitAddSupplier', function() {
-            const supplierName = $('#supplierName').val()
-            const alamat = $('#alamat').val()
-            const noHp = $('#noHp').val()
-
-            $.ajax({
-                type: 'post',
-                url: '/addSupplier',
-                data: {
-                    supplierName: supplierName,
-                    alamat: alamat,
-                    noHp: noHp,
-                },
-                success: function() {
-                    Swal.fire({
-                    title: 'Berhasil!',
-                    text: 'Data berhasil ditambah',
-                    icon: 'success',
-                    confirmButtonText: 'Cool',
+    
+            // Add Submit
+            function addSubmitSupplier() {
+                $(document).off('click', '#submitAddSupplier')
+                $(document).on('click', '#submitAddSupplier', function () {
+                    const supplierName = $('#supplierName').val()
+                    const alamat = $('#alamat').val()
+                    const noHp = $('#noHp').val()
+        
+                    $.ajax({
+                        type: 'post',
+                        url: '/addSupplier',
+                        data: {
+                            supplierName: supplierName,
+                            alamat: alamat,
+                            noHp: noHp,
+                        },
+                        success: function () {
+                            notifSweetAlert('Berhasil', 'Supplier has been added!', 'success', 'OK')
+        
+                            showTable()
+        
+                            $('#modal').modal('hide')
+                            $('#supplierName').val('')
+                            $('#alamat').val('')
+                            $('#noHp').val('')
+                        },
+                        error: function () {
+                            notifSweetAlert('Error!', 'There was an error add the supplier', 'error', 'Back')
+        
+                            showTable()
+                            $('#modal').modal('hide')
+                        }
                     })
-
-                    table.ajax.reload()
-                    $('#modal').modal('hide')
-                    $('#supplierName').val('')
-                    $('#alamat').val('')
-                    $('#noHp').val('')
-                }
-            })
+                })
+            }
+            addSubmitSupplier()
         })
+    }
 
 
-
-
-
-        // Edit 
+    // Edit 
+    function editSupplier() {
         $(document).off('click', '.edit')
-        $(document).on('click', '.edit', function() {
+        $(document).on('click', '.edit', function () {
             let id = $(this).data('id')
             let supplierName = $(this).data('suplliername')
             let alamat = $(this).data('alamat')
@@ -187,53 +219,51 @@
                 </div>
             `)
 
-            $(document).off('click', '#submitEditSupplier')
-            $(document).on('click', '#submitEditSupplier', function() {
-                const supplierName = $('#supplierNameUpdate').val()
-                const alamat = $('#alamatUpdate').val()
-                const noHp = $('#noHpUpdate').val()
-
-                $.ajax({
-                    type: 'put',
-                    url: '/editSupplier',
-                    data: {
-                        id: id,
-                        supplierName: supplierName,
-                        alamat: alamat,
-                        noHp: noHp,
-                    },
-
-                    success: function() {
-                        Swal.fire({
-                        title: 'Berhasil!',
-                        text: 'Data berhasil di edit',
-                        icon: 'success',
-                        confirmButtonText: 'Cool',
-                        })
-
-                        table.ajax.reload()
-                        $('#modal').modal('hide')
-                    },
-                    error: function() {
-                        Swal.fire({
-                            title: "Error!",
-                            text: "There was an error edit the supplier.",
-                            icon: "error"
-                        });
-                        table.ajax.reload()
-                        $('#modal').modal('hide')
-                    }
+            // Submit
+            function submitEditSupplier() {
+                $(document).off('click', '#submitEditSupplier')
+                $(document).on('click', '#submitEditSupplier', function () {
+                    const supplierName = $('#supplierNameUpdate').val()
+                    const alamat = $('#alamatUpdate').val()
+                    const noHp = $('#noHpUpdate').val()
+    
+                    $.ajax({
+                        type: 'put',
+                        url: '/editSupplier',
+                        data: {
+                            id: id,
+                            supplierName: supplierName,
+                            alamat: alamat,
+                            noHp: noHp,
+                        },
+    
+                        success: function () {
+                            notifSweetAlert('Berhasil!', 'Supplier has been edited!', 'success',
+                                'OK')
+    
+                            showTable()
+                            $('#modal').modal('hide')
+                        },
+                        error: function () {
+                            notifSweetAlert('Error!', 'There was an error edit the supplier!',
+                                'error', 'Back')
+    
+                            showTable()
+                            $('#modal').modal('hide')
+                        }
+                    })
                 })
-            })
-
-            $('#modal').modal('show')
+    
+                $('#modal').modal('show')
+            }
+            submitEditSupplier()
         })
+    }
 
 
-
-
-        // Delete 
-        $(document).on('click', '.delete', function() {
+    // Delete 
+    function deleteSupplier() {
+        $(document).on('click', '.delete', function () {
             let id = $(this).data('id')
 
             Swal.fire({
@@ -249,21 +279,18 @@
                     $.ajax({
                         type: 'post',
                         url: '/deleteSupplier/' + id,
-                        success: function() {
-                            Swal.fire({
-                            title: "Deleted!",
-                            text: "Supplier has been deleted.",
-                            icon: "success"
-                            });
+                        success: function () {
+                            notifSweetAlert('Deleted!', 'Supplier has been deleted!',
+                                'success',
+                                'OK')
 
-                            table.ajax.reload();
+                            showTable()
                         },
-                        error: function() {
-                            Swal.fire({
-                                title: "Error!",
-                                text: "There was an error deleting the supplier.",
-                                icon: "error"
-                            });
+                        error: function () {
+                            notifSweetAlert('Error!',
+                                'There was an error deleting the supplier!', 'error',
+                                'Back'
+                            )
                         }
                     });
                 } else {
@@ -271,5 +298,14 @@
                 }
             })
         })
-    </script>
+    }
+
+
+    
+
+    // Jalankan function
+    addSupplier()
+    editSupplier()
+    deleteSupplier()
+</script>
 @endsection

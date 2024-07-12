@@ -55,138 +55,151 @@
     @section('table')
         <script>
 
+            // Notifikasi Alert
+            function notifAlert(title, text, icon) {
+                Swal.fire({
+                    title: title,
+                    text: text,
+                    icon: icon,
+                })
+            }
+
             // Show Datatable
-            let tables = {};
-            let table = $('table[id^="table-"]').each(function() {
-                let tableId = $(this).attr('id');
-                let categoryName = $(this).find('tbody').data('category');
-                
-                $('#' + tableId).DataTable({
-                    searching: false,
-                    serverSide: false,
-                    pageLength: 3,
-                    ajax: {
-                        type: 'get',
-                        url: '/showTableProductsByCategory',
-                        data: {
-                            categoryName: categoryName,
-                        }
-                    },
-                    columns: [
-                        { data: 'productName' },
-                        {
-                            width: '25%',
-                            render: function(data, type, row) {
-                                return `
-                                    <button class='btn btn-danger delete' data-id='${row.id}'>Delete</button>
-                                `;
+            function showTable() {
+                let tables = {};
+                let table = $('table[id^="table-"]').each(function() {
+                    let tableId = $(this).attr('id');
+                    let categoryName = $(this).find('tbody').data('category');
+                    
+                    $('#' + tableId).DataTable({
+                        bDestroy: true,
+                        searching: false,
+                        serverSide: false,
+                        pageLength: 3,
+                        ajax: {
+                            type: 'get',
+                            url: '/showTableProductsByCategory',
+                            data: {
+                                categoryName: categoryName,
                             }
-                        }
-                    ]
+                        },
+                        columns: [
+                            { data: 'productName' },
+                            {
+                                width: '25%',
+                                render: function(data, type, row) {
+                                    return `
+                                        <button class='btn btn-danger delete' data-id='${row.id}'>Delete</button>
+                                    `;
+                                }
+                            }
+                        ]
+                    });
                 });
-            });
+            }
 
 
             // Add
-            $(document).on('click', '#addProduct', function() {
-                let category = $(this).data('category')
-                let tableId = $(this).data('table-id');
-
-                $('#containerModal').empty().append(`
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add New Product ${category}</h5>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label class="col-form-label">Nama Product :</label>
-                                <input type="text" class="form-control" id="productName">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary submitAddProduct">Submit</button>
-                    </div>
-                `)
-
-                // Submit
-                $(document).off('click', '.submitAddProduct')
-                $(document).on('click', '.submitAddProduct', function() {
+            function addProduct() {
+                $(document).off('click', '#addProduct')
+                $(document).on('click', '#addProduct', function() {
+                    let category = $(this).data('category')
                     let tableId = $(this).data('table-id');
-                    const productName = $('#productName').val()
-                    $.ajax({
-                        type: 'post',
-                        url: '/addProduct',
-                        data: {
-                            categoryName: category,
-                            productName: productName,
-                        },
-                        success: function() {
-                            Swal.fire({
-                            title: 'Berhasil!',
-                            text: 'Data berhasil ditambah',
-                            icon: 'success',
-                            confirmButtonText: 'Cool',
+    
+                    $('#containerModal').empty().append(`
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add New Product ${category}</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label class="col-form-label">Nama Product :</label>
+                                    <input type="text" class="form-control" id="productName">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary submitAddProduct">Submit</button>
+                        </div>
+                    `)
+    
+                    // Submit
+                    function addSubmit() {
+                        $(document).off('click', '.submitAddProduct')
+                        $(document).on('click', '.submitAddProduct', function() {
+                            let tableId = $(this).data('table-id');
+                            const productName = $('#productName').val()
+                            $.ajax({
+                                type: 'post',
+                                url: '/addProduct',
+                                data: {
+                                    categoryName: category,
+                                    productName: productName,
+                                },
+                                success: function() {
+                                    notifAlert('Berhasil!', 'Barang berhasil ditambah!', 'success')
+        
+                                    showTable()
+                                    $('#modal').modal('hide')
+                                    $('#productName').val('')
+                                },
+                                error: function() {
+                                    notifAlert('Error!', 'Barang gagal ditambah!', 'error')
+                                    $('#modal').modal('hide')
+                                    $('#productName').val('')
+                                }
                             })
-
-                            // tables[tableId].ajax.reload();
-                            window.location.reload()
-                            $('#modal').modal('hide')
-                            $('#productName').val('')
-                        }
-                    })
+                        })
+                    }
+                    addSubmit()
+    
+                    $('#modal').modal('show')
                 })
-
-                $('#modal').modal('show')
-            })
-
-
-
+            }
 
 
             // Delete
-            $(document).on('click', '.delete', function() {
-                let id = $(this).data('id')
-
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to delete this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: 'post',
-                            url: '/deleteProductByCategory/' + id,
-                            success: function() {
-                                Swal.fire({
-                                title: "Deleted!",
-                                text: "Supplier has been deleted.",
-                                icon: "success"
-                                });
-
-                                window.location.reload()
-                                
-                            },
-                            error: function() {
-                                Swal.fire({
-                                    title: "Error!",
-                                    text: "There was an error deleting the supplier.",
-                                    icon: "error"
-                                });
-                            }
-                        });
-                    } else {
-                        
-                    }
+            function deleteProduct() {
+                $(document).off('click', '.delete')
+                $(document).on('click', '.delete', function() {
+                    let id = $(this).data('id')
+    
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won't be able to delete this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, delete it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: 'post',
+                                url: '/deleteProductByCategory/' + id,
+                                success: function() {
+                                    notifAlert('Berhasil!', 'Barang berhasil dihapus!', 'success')
+                                    showTable()
+                                },
+                                error: function() {
+                                    notifAlert('Error!', 'Barang gagal dihapus!', 'error')
+                                }
+                            });
+                        } else {
+                            
+                        }
+                    })
                 })
-            })
+            }
 
 
+
+            // Jalankan function
+            showTable()
+            addProduct()
+            deleteProduct()
+            
         </script>
     @endsection
 

@@ -80,6 +80,14 @@
         $('.js-example-basic-single').select2();
 
 
+        // Notifikasi Alert
+        function notifAlert(title, text, icon) {
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: icon,
+            });
+        }
 
 
         // Show DataTable
@@ -104,123 +112,85 @@
         })
 
 
-
-
-
         // Show Products by Select Category
-        $(document).ready(function() {
-            // Panggil fungsi untuk kategori pertama kali halaman dimuat
-            let selectedOption = $('#categoryname').find('option:selected');
-            let category = selectedOption.data('category');
-            loadProductsByCategory(category);
-
-            // Fungsi untuk memuat produk berdasarkan kategori
-            function loadProductsByCategory(category) {
-                $.ajax({
-                    type: 'get',
-                    url: 'showOptionCategoryKeluar',
-                    data: {
-                        categoryName: category,
-                    },
-                    success: function(response) {
-                        // Kosongkan elemen select produk
-                        $('#productname').empty();
-
-                        $.each(response, function(index, item) {
-                            $('#productname').append(`
-                                <option value="${item.productName}">${item.productName}</option>
-                            `);
-                        });
-                    }
-                });
-            }
-
-            // Show Select by Category
-            $(document).off('change', '#categoryname')
-            $(document).on('change', '#categoryname', function() {
-                // Mengambil elemen yang dipilih
-                let selectedOption = $(this).find('option:selected');
-
-                // Mengambil nilai dari data-category
+        function showProductByCategory() {
+            $(document).ready(function() {
+                // Panggil fungsi untuk kategori pertama kali halaman dimuat
+                let selectedOption = $('#categoryname').find('option:selected');
                 let category = selectedOption.data('category');
-
-                // Panggil fungsi untuk memuat produk berdasarkan kategori
                 loadProductsByCategory(category);
+    
+                // Fungsi untuk memuat produk berdasarkan kategori
+                function loadProductsByCategory(category) {
+                    $.ajax({
+                        type: 'get',
+                        url: 'showOptionCategoryKeluar',
+                        data: {
+                            categoryName: category,
+                        },
+                        success: function(response) {
+                            // Kosongkan elemen select produk
+                            $('#productname').empty();
+    
+                            $.each(response, function(index, item) {
+                                $('#productname').append(`
+                                    <option value="${item.productName}">${item.productName}</option>
+                                `);
+                            });
+                        }
+                    });
+                }
+    
+                // Show Select by Category
+                $(document).off('change', '#categoryname')
+                $(document).on('change', '#categoryname', function() {
+                    // Mengambil elemen yang dipilih
+                    let selectedOption = $(this).find('option:selected');
+    
+                    // Mengambil nilai dari data-category
+                    let category = selectedOption.data('category');
+    
+                    // Panggil fungsi untuk memuat produk berdasarkan kategori
+                    loadProductsByCategory(category);
+                });
             });
-        });
-
-        // $(document).off('change', '#categoryname')
-        // $(document).on('change', '#categoryname', function() {
-        //     // Mengambil elemen yang dipilih
-        //     let selectedOption = $(this).find('option:selected');
-
-        //     // Mengambil nilai dari data-category
-        //     let category = selectedOption.data('category');
-
-        //     $.ajax({
-        //         type: 'get',
-        //         url: 'showOptionCategoryKeluar',
-        //         data: {
-        //             categoryName: category,
-        //         },
-        //         success: function(response) {
-        //             // Kosongkan elemen select produk
-        //             $('#productname').empty();
-
-        //             $.each(response, function(index, item) {
-        //                 $('#productname').append(`
-        //                     <option value="${item.productName}">${item.productName}</option>
-        //                 `);
-        //             });
-        //         }
-        //     })
-        // })
-
-
-
+        }
+        showProductByCategory()
 
 
         // Add Product to LocalStorage
-        $(document).on('click', '#addButton', function() {
-            let categoryname = $('#categoryname').val()
-            let productname = $('#productname').val()
-            let amount = $('#amount').val()
-            let date = $('#date').val()
-
-            if (!categoryname || !productname || !amount || !date) {
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Semua field harus diisi',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            }
-
-            let newData = {
-                categoryname: categoryname,
-                productname: productname,
-                amount: amount,
-                date: date
-            };
-
-            let existingEntries = JSON.parse(localStorage.getItem("barangKeluarData")) || [];
-            existingEntries.push(newData);
-            localStorage.setItem("barangKeluarData", JSON.stringify(existingEntries));
-
-            Swal.fire({
-                title: 'Berhasil!',
-                text: 'Data berhasil ditambah',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
-
-            loadDataToDataTable();
-
-            // Bersihkan input form
-            $('#categoryname, #productname, #amount, #date').val('');
-        })
-
+        function addProduct() {
+            $(document).on('click', '#addButton', function() {
+                let categoryname = $('#categoryname').val()
+                let productname = $('#productname').val()
+                let amount = $('#amount').val()
+                let date = $('#date').val()
+    
+                if (!categoryname || !productname || !amount || !date) {
+                    notifAlert('Error', 'Semua field harus di isi!', 'error')
+                    return;
+                }
+    
+                let newData = {
+                    categoryname: categoryname,
+                    productname: productname,
+                    amount: amount,
+                    date: date
+                };
+    
+                let existingEntries = JSON.parse(localStorage.getItem("barangKeluarData")) || [];
+                existingEntries.push(newData);
+                localStorage.setItem("barangKeluarData", JSON.stringify(existingEntries));
+    
+                notifAlert('Berhasil', 'Data berhasil di tambah!', 'success')
+    
+                loadDataToDataTable();
+    
+                // Bersihkan input form
+                $('#categoryname, #productname, #amount, #date').val('');
+            })
+        }
+        addProduct()
 
 
 
@@ -242,97 +212,78 @@
                 }).draw();
             });
         }
-
-        // jalankan function nya
-        loadDataToDataTable();
-
-
-
-
-        
-
-
+        loadDataToDataTable();     
 
 
 
         // Delete
-        $(document).off('click', '.delete')
-        $(document).on('click', '.delete', function() {
-            let index = $(this).data('id')
-
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to delete this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) =>{
-                if (result.isConfirmed) {
-                // Lakukan penghapusan dari Local Storage
-                let data = JSON.parse(localStorage.getItem('barangKeluarData')) || [];
-
-                // Hapus item dengan index tertentu dari data
-                data.splice(index, 1);
-
-                // Simpan kembali data yang sudah di-filter ke dalam Local Storage
-                localStorage.setItem('barangKeluarData', JSON.stringify(data));
-
-                // Tampilkan pesan sukses
+        function deleteProduct() {
+            $(document).off('click', '.delete')
+            $(document).on('click', '.delete', function() {
+                let index = $(this).data('id')
+    
                 Swal.fire({
-                    title: "Deleted!",
-                    text: "Data has been deleted.",
-                    icon: "success"
-                });
-
-                // Muat ulang DataTable dari Local Storage
-                loadDataToDataTable();
-                } else {
-                    
-                }
+                    title: "Are you sure?",
+                    text: "You won't be able to delete this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) =>{
+                    if (result.isConfirmed) {
+                    // Lakukan penghapusan dari Local Storage
+                    let data = JSON.parse(localStorage.getItem('barangKeluarData')) || [];
+    
+                    // Hapus item dengan index tertentu dari data
+                    data.splice(index, 1);
+    
+                    // Simpan kembali data yang sudah di-filter ke dalam Local Storage
+                    localStorage.setItem('barangKeluarData', JSON.stringify(data));
+    
+                    // Tampilkan pesan sukses
+                    notifAlert('Berhasil', 'Data berhasil di hapus!', 'success')
+    
+                    // Muat ulang DataTable dari Local Storage
+                    loadDataToDataTable();
+                    } else {
+                        
+                    }
+                })
             })
-        })
-
-
-
+        }
+        deleteProduct()
 
 
         // EndButton
-        $(document).on('click', '#addButtonEnd', function() {
-            let data = JSON.parse(localStorage.getItem('barangKeluarData')) || [];
+        function endButton() {
+            $(document).on('click', '#addButtonEnd', function() {
+                let data = JSON.parse(localStorage.getItem('barangKeluarData')) || [];
+    
+                $.ajax({
+                    type: 'post',
+                    url: '/endSaveKeluar',
+                    data: {
+                        data: data
+                    },
+                    success: function(response) {
+                        notifAlert('Berhasil', 'Data berhasil masuk stok barang dan laporan!', 'success')
+    
+                        // Kosongkan Local Storage setelah berhasil disimpan ke database (opsional)
+                        localStorage.removeItem('barangKeluarData');
+    
+                        // Muat ulang DataTable
+                        loadDataToDataTable();
+                    },
+                    error: function() {
+                        // Tampilkan pesan error
+                        notifAlert('Error', 'Data gagal masuk ke stok barang dan laporan!', 'error')
+                    }
+                });
+            })
+        }
+        endButton()
 
-            $.ajax({
-                type: 'post',
-                url: '/endSaveKeluar',
-                data: {
-                    data: data
-                },
-                success: function(response) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'Data successfully saved to stok barang and report.',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    });
-
-                    // Kosongkan Local Storage setelah berhasil disimpan ke database (opsional)
-                    localStorage.removeItem('barangKeluarData');
-
-                    // Muat ulang DataTable
-                    loadDataToDataTable();
-                },
-                error: function() {
-                    // Tampilkan pesan error
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Failed to save data to stok barang and report.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            });
-        })
     </script>
 @endsection
         

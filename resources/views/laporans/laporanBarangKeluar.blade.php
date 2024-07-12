@@ -52,89 +52,98 @@
 @section('table')
 <script>
 
+    // Notifikasi Alert
+    function notifAlert(title, text, icon) {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+        });
+    }
+
+
+
     // Show DataTable
-    let table = $('#tableLaporanBarangKeluar').DataTable({
-        searching: true,
-        serverSide: true,
-        ajax: {
-            type: 'get',
-            url: '/showTableLaporanBarangKeluar',
-            dataSrc: function(json) {
-                for(let i = 0, len = json.data.length; i < len; i++) {
-                    json.data[i].no = i + 1;
-                }
-                return json.data;
-            },
-        },
-        columns: [
-                {data: 'no'},
-                {data: 'categoryName'},
-                {data: 'productName'},
-                {data: 'amount'},
-                {data: 'date'},
-                {
-                    render:function(data, type, row) {
-                        return `
-                            <button class='btn btn-danger delete' data-id='${row.id}'>Delete</button>
-                        `
+    function showTable() {
+        $('#tableLaporanBarangKeluar').DataTable({
+            bDestroy: true,
+            searching: true,
+            serverSide: true,
+            ajax: {
+                type: 'get',
+                url: '/showTableLaporanBarangKeluar',
+                dataSrc: function(json) {
+                    for(let i = 0, len = json.data.length; i < len; i++) {
+                        json.data[i].no = i + 1;
                     }
-                }
-        ]
-    })
-
-
+                    return json.data;
+                },
+            },
+            columns: [
+                    {data: 'no'},
+                    {data: 'categoryName'},
+                    {data: 'productName'},
+                    {data: 'amount'},
+                    {data: 'date'},
+                    {
+                        render:function(data, type, row) {
+                            return `
+                                <button class='btn btn-danger delete' data-id='${row.id}'>Delete</button>
+                            `
+                        }
+                    }
+            ]
+        })
+    }
+    showTable()
 
 
 
     // Delete
-    $(document).on('click', '.delete', function() {
-        let id = $(this).data('id')
-
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to delete this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'post',
-                    url: '/deleteLaporanKeluar/' + id,
-                    success: function() {
-                        Swal.fire({
-                        title: "Deleted!",
-                        text: "Report has been deleted.",
-                        icon: "success"
-                        });
-
-                        table.ajax.reload();
-                    },
-                    error: function() {
-                        Swal.fire({
-                            title: "Error!",
-                            text: "There was an error deleting this laporan.",
-                            icon: "error"
-                        });
-                    }
-                });
-            } else {
-                table.ajax.reload()
-            }
+    function deleteReport() {
+        $(document).off('click', '.delete')
+        $(document).on('click', '.delete', function() {
+            let id = $(this).data('id')
+    
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to delete this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/deleteLaporanKeluar/' + id,
+                        success: function() {
+                            notifAlert('Berhasil', 'Data berhasil di hapus!', 'success')
+    
+                            showTable()
+                        },
+                        error: function() {
+                            notifAlert('Error', 'Data gagal di hapus!', 'error')
+                        }
+                    });
+                } else {
+                    showTable()
+                }
+            })
         })
-    })
-
-
+    }
+    deleteReport()
 
 
 
     // Print Laporan
-    $(document).on('click', '#print', function() {
-        window.print();
-    })
-
+    function printReport() {
+        $(document).on('click', '#print', function() {
+            window.print();
+        })
+    }
+    printReport()
 
 </script>
 @endsection
